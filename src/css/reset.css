@@ -44,3 +44,14 @@ button {
 	box-sizing: border-box;
 	font-family: 'Spoqa Han Sans', 'Sans-serif';
 }
+
+/* Custom Fonts */
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+
+.jejugothic {
+	font-family: 'Jeju Gothic', sans-serif;
+}
+.jejuhallasan {
+	font-family: 'Jeju Hallasan', cursive;
+}

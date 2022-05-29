@@ -1,9 +1,5 @@
 <template>
   <section class="quiz-wrap">
-    <div class="progress-wrap">
-      <span class="progress-bar" :style="{ width: getProgressPercent }"></span>
-    </div>
-
     <section class="quiz-container">
       <div
         v-for="(quiz, index) in quizList"
@@ -11,26 +7,33 @@
         class="quiz-item"
         :style="getStyle(index)"
       >
-        <div class="quiz-title">
-          <h2>{{ quiz.title }}</h2>
+        <div class="quiz-title-wrap">
+          <div class="title-header">
+            <img src="../assets/shape4.png" alt="icon">
+            <span class="jejugothic">{{ getQuestionIndex(index + 1) }} 문항</span>
+          </div>
+          <div class="question-wrap">
+            <span class="jejugothic">{{ quiz.title }}</span>
+          </div>
         </div>
         <div class="quiz-answers">
           <ul class="answers-wrap">
             <li
-              v-for="answer in quiz.answers"
+              v-for="(answer, idx) in quiz.answers"
               :key="answer.content"
               @click="saveAnswer(answer.score, index)"
+              class="jejugothic"
             >
-              {{ answer.content }}
+              {{ idx + 1 }}) {{ answer.content }}
             </li>
           </ul>
         </div>
       </div>
     </section>
 
-    <footer class="footer">
-      <router-link to="/start" class="btn-nav">돌아가기</router-link>
-    </footer>
+<!--    <footer class="footer">-->
+<!--      <router-link to="/start" class="btn-nav">돌아가기</router-link>-->
+<!--    </footer>-->
   </section>
 </template>
 
@@ -39,20 +42,6 @@ import quizList from "@/data.json";
 
 export default {
   name: "Quiz",
-
-  computed: {
-    getProgressPercent() {
-      const progress = (100 * this.currentIdx) / this.quizList.length;
-
-      if (!progress) {
-        return `2%`;
-      } else if (this.currentIdx === this.quizList.length - 1) {
-        return `100%`;
-      } else {
-        return `${progress}%`;
-      }
-    },
-  },
 
   data() {
     return {
@@ -64,12 +53,50 @@ export default {
   },
 
   methods: {
+    getQuestionIndex(idx) {
+      let str = "";
+
+      switch (idx) {
+        case 1:
+          str = "첫번째";
+          break;
+        case 2:
+          str = "두번째";
+          break;
+        case 3:
+          str = "세번째";
+          break;
+        case 4:
+          str = "네번째";
+          break;
+        case 5:
+          str = "다섯번째";
+          break;
+        case 6:
+          str = "여섯번째";
+          break;
+        case 7:
+          str = "일곱번째";
+          break;
+        case 8:
+          str = "여덟번째";
+          break;
+        case 9:
+          str = "아홉번째";
+          break;
+        case 10:
+          str = "열번째";
+          break;
+      }
+
+      return str;
+    },
+
     saveAnswer(score, idx) {
       this.totalScore += score;
 
       if (this.quizList.length - 1 === idx) {
-        alert("문제 다 풀었다. 총 점수는 :: " + this.totalScore);
-        return;
+        this.$router.replace('/result')
       }
 
       this.currentIdx += 1;
@@ -90,23 +117,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.progress-wrap {
-  width: 100%;
-  height: 30px;
-
-  border: 1px solid lightblue;
-
-  .progress-bar {
-    display: inline-block;
-    height: 100%;
-
-    background-color: lightblue;
-
-    transition: 0.3s;
-  }
-}
-
 .quiz-wrap {
+  width: 100%;
+  height: 100%;
   max-width: 414px;
   overflow: hidden;
 
@@ -118,6 +131,45 @@ export default {
   height: 70vh;
 
   position: relative;
+  color: #5F5045;
+  letter-spacing: 0.05em;
+
+  .quiz-title-wrap {
+    margin-bottom: 30px;
+
+    .title-header {
+      display: flex;
+      align-items: center;
+
+      & img {
+        width: 40px;
+        margin-right: 15px;
+      }
+      & span {
+        font-size: 28px;
+      }
+    }
+
+    .question-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      height: 65px;
+      margin-top: 20px;
+      padding: 18px;
+
+      background-image: url("../assets/border.png");
+      background-size: 100% 65px;
+      background-repeat: no-repeat;
+
+      & span {
+        font-size: 18px;
+        word-break: keep-all;
+      }
+    }
+  }
 }
 
 .quiz-item {
@@ -136,11 +188,10 @@ export default {
 .answers-wrap {
   li {
     width: 100%;
-    border: 2px solid #dedede;
-    border-radius: 15px;
-
     padding: 10px;
     margin-bottom: 15px;
+
+    word-break: keep-all;
   }
 }
 
