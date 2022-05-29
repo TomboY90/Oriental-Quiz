@@ -54,6 +54,7 @@ export default {
       border-bottom: 1px solid black;
       position: relative;
       left: 57%;
+      text-decoration: none;
     }
   }
 

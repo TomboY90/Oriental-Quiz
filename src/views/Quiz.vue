@@ -48,7 +48,7 @@ export default {
       quizList: quizList.questions,
 
       currentIdx: 0,
-      totalScore: 0,
+      totalAnswer: {},
     };
   },
 
@@ -93,10 +93,16 @@ export default {
     },
 
     saveAnswer(score, idx) {
-      this.totalScore += score;
+      if (this.totalAnswer[score]) {
+        this.totalAnswer[score] += 1;
+      } else {
+        this.totalAnswer[score] = 1;
+      }
 
       if (this.quizList.length - 1 === idx) {
-        this.$router.replace('/result')
+        // 최종 타입 계산
+        const finalType = Object.keys(this.totalAnswer).reduce((a, b) => this.totalAnswer[a] > this.totalAnswer[b] ? a : b);
+        this.$router.replace({ name: 'result', params: { type: finalType } })
       }
 
       this.currentIdx += 1;

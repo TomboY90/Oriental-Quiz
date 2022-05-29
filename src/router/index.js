@@ -19,6 +19,7 @@ const routes = [
     path: "/result",
     name: "result",
     component: () => import("@/views/Result.vue"),
+    props: true,
   }
 ];
 

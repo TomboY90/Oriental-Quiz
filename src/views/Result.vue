@@ -7,7 +7,7 @@
 
     <h2 class="result-title jejugothic">사상체질 진단 결과</h2>
     <div class="result-box" :class="getResultClass()">
-      <span class="result-text">당신은 <span class="result-main jejuhallasan">"태양인"</span> 입니다.</span>
+      <span class="result-text">당신은 <span class="result-main jejuhallasan">"{{ getType() }}"</span> 입니다.</span>
     </div>
   </section>
 </template>
@@ -16,13 +16,41 @@
 export default {
   name: "Result",
 
+  props: {
+    type: {
+      type: String,
+      default: ''
+    }
+  },
+
   methods: {
+    getType() {
+      let typeString = "";
+
+      switch (this.$props.type) {
+        case 'tae-yang':
+          typeString = "태양인"
+          break;
+        case 'so-yang':
+          typeString = "소양인"
+          break;
+        case 'tae-eum':
+          typeString = "태음인"
+          break;
+        case 'so-eum':
+          typeString = "소음인"
+          break;
+      }
+
+      return typeString;
+    },
+
     getResultClass() {
       return {
-        'tae-yang': true,
-        'so-yang': false,
-        'tae-eum': false,
-        'so-eum': false,
+        'tae-yang': this.$props.type === 'tae-yang',
+        'so-yang': this.$props.type === 'so-yang',
+        'tae-eum': this.$props.type === 'tae-eum',
+        'so-eum': this.$props.type === 'so-eum',
       }
     }
   }
